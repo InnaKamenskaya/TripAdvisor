@@ -1,8 +1,9 @@
 package org.kamenskaya.tripadvisor.app.model.entity.geography;
 
 import org.kamenskaya.tripadvisor.app.model.entity.base.AbstractEntity;
+import org.kamenskaya.tripadvisor.app.infra.util.CommonUtil;
 
-import java.util.Set;
+import java.util.*;
 
 public class City extends AbstractEntity {
 
@@ -36,10 +37,27 @@ public class City extends AbstractEntity {
     }
 
     public Set<Station> getStations() {
-        return stations;
+        return CommonUtil.getSafeSet(stations);
     }
 
-    public void setStations(Set<Station> stations) {
+/*    public void setStations(Set<Station> stations) {
         this.stations = stations;
+    }*/
+
+    public void addStation(final Station station){
+        Objects.requireNonNull(station, "station parameter is not initialized");
+        if (stations == null){
+            stations = new HashSet<>();
+        }
+        stations.add(station);
+        station.setCity(this);
+    }
+
+    public void removeStation(final Station station){
+        Objects.requireNonNull(station, "station parameter is not initialized");
+        if (stations == null){
+            return;
+        }
+        stations.remove(station);
     }
 }
