@@ -2,6 +2,7 @@ package org.kamenskaya.tripadvisor.app.model.entity.geography;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kamenskaya.tripadvisor.app.model.entity.transport.TransportType;
 
 import static org.junit.Assert.*;
 
@@ -10,13 +11,12 @@ public class CityTest {
 
     @Before
     public void setup(){
-        city = new City();
+        city = new City("Boston");
     }
 
     @Test
     public void testAddValidStationSuccess(){
-        Station station = new Station();
-        city.addStation(station);
+        Station station =  city.addStation(TransportType.AUTO);
 
         assertTrue(containsStation(city, station));
         assertEquals(city, station.getCity());
@@ -24,25 +24,16 @@ public class CityTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testAddNullStationFailure(){
+    public void testAddStationNullTransportTypeFailure(){
         city.addStation(null);
-
         assertTrue(false);
     }
 
-    @Test
-    public void testAddDuplicateStationFailure(){
-        Station station = new Station();
-        city.addStation(station);
-        city.addStation(station);
 
-        assertEquals(city.getStations().size(), 1);
-    }
 
     @Test
     public void testRemoveStationSuccess(){
-        Station station= new Station();
-        city.addStation(station);
+        Station station =  city.addStation(TransportType.AUTO);
         city.removeStation(station);
 
         assertFalse(containsStation(city, station));
@@ -52,8 +43,6 @@ public class CityTest {
     @Test(expected = NullPointerException.class)
     public void testRemoveNullStationFailure(){
         city.removeStation(null);
-
-
         assertTrue(false);
     }
 
