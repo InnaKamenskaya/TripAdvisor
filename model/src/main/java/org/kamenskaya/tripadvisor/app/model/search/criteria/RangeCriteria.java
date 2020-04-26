@@ -1,6 +1,8 @@
 package org.kamenskaya.tripadvisor.app.model.search.criteria;
 
+import com.google.common.base.Preconditions;
 import org.kamenskaya.tripadvisor.app.infra.exception.flow.InvalidParameterException;
+import org.kamenskaya.tripadvisor.app.infra.util.Checks;
 
 public class RangeCriteria {
 
@@ -8,12 +10,8 @@ public class RangeCriteria {
     private final int rowCount;
 
     public RangeCriteria(final int page, final int rowCount) {
-        if (page < 0){
-            throw new InvalidParameterException("Incorrect page index: " + page);
-        }
-        if (rowCount < 0){
-            throw new InvalidParameterException("Incorrect row count: " + rowCount);
-        }
+        Checks.checkParameter(page >= 0, "Invalid page index: " + page);
+        Checks.checkParameter(rowCount >= 0, "Incorrect row count: " + rowCount);
         this.page = page;
         this.rowCount = rowCount;
     }
